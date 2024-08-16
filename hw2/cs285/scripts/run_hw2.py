@@ -82,8 +82,13 @@ def run_training_loop(args):
         # this line converts this into a single dictionary of lists of NumPy arrays.
         trajs_dict = {k: [traj[k] for traj in trajs] for k in trajs[0]}
 
-        # TODO: train the agent using the sampled trajectories and the agent's update function
-        train_info: dict = None
+        # TODO: train the agent using the sampled trajectories and the agent's update function (DONE)
+        train_info: dict = agent.update(
+            obs=trajs_dict['observation'],
+            actions=trajs_dict['action'],
+            rewards=trajs_dict['reward'],
+            terminals=trajs_dict['terminal']
+        )
 
         if itr % args.scalar_log_freq == 0:
             # save eval metrics

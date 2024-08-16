@@ -30,10 +30,8 @@ def sample_trajectory(
             )
 
         # TODO use the most recent ob and the policy to decide what to do (DONE)
-        ac: np.ndarray = ptu.to_numpy(
-            policy(ptu.from_numpy(
-                np.expand_dims(ob, axis=0)
-            ))
+        ac: np.ndarray = policy.get_action(
+            np.expand_dims(ob, axis=0)
         )[0]  # '[0]', because the forward method get observations not observation
 
         # TODO: use that action to take a step in the environment (DONE)
