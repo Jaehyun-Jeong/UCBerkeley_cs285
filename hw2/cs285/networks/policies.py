@@ -78,10 +78,10 @@ class MLPPolicy(nn.Module):
         flexible objects, such as a `torch.distributions.Distribution` object. It's up to you!
         """
         if self.discrete:
-            # TODO: define the forward pass for a policy with a discrete action space. (DONE)
+            # TODO: define the forward pass for a policy with a discrete action space. (DONE) (DONE)
             dist = self.logits_net(obs)
         else:
-            # TODO: define the forward pass for a policy with a continuous action space.
+            # TODO: define the forward pass for a policy with a continuous action space. (DONE)
             dist_mean= self.mean_net(obs)
             dist = distributions.Normal(mean_acs, torch.exp(self.logstd))
 
@@ -106,9 +106,10 @@ class MLPPolicyPG(MLPPolicy):
         actions = ptu.from_numpy(actions)
         advantages = ptu.from_numpy(advantages)
 
-        # TODO: implement the policy gradient actor update.
+        # TODO: implement the policy gradient actor update. (DONE)
         if self.discrete:
             probs = self.forward(obs)
+            probs = torch.softmax(probs, dim=1)
             probs = probs.max(1).values
         else:
             dist = self.forward(obs)
