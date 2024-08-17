@@ -60,7 +60,7 @@ def sample_trajectory(
         "reward": np.array(rewards, dtype=np.float32),
         "action": np.array(acs, dtype=np.float32),
         "next_observation": np.array(next_obs, dtype=np.float32),
-        "terminal": np.array(terminals, dtype=np.float32),
+        "terminal": np.array(terminals, dtype=np.float32)
     }
 
 
@@ -71,6 +71,7 @@ def sample_trajectories(
     max_length: int,
     render: bool = False,
 ) -> Tuple[List[Dict[str, np.ndarray]], int]:
+
     """Collect rollouts using policy until we have collected min_timesteps_per_batch steps."""
     timesteps_this_batch = 0
     trajs = []
@@ -87,6 +88,7 @@ def sample_trajectories(
 def sample_n_trajectories(
     env: gym.Env, policy: MLPPolicy, ntraj: int, max_length: int, render: bool = False
 ):
+
     """Collect ntraj rollouts."""
     trajs = []
     for _ in range(ntraj):

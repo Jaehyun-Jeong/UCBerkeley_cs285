@@ -78,12 +78,12 @@ class MLPPolicy(nn.Module):
         flexible objects, such as a `torch.distributions.Distribution` object. It's up to you!
         """
         if self.discrete:
-            # TODO: define the forward pass for a policy with a discrete action space. (DONE) (DONE)
+            # TODO: define the forward pass for a policy with a discrete action space. (DONE)
             dist = self.logits_net(obs)
         else:
             # TODO: define the forward pass for a policy with a continuous action space. (DONE)
-            dist_mean= self.mean_net(obs)
-            dist = distributions.Normal(mean_acs, torch.exp(self.logstd))
+            mean_dist = self.mean_net(obs)
+            dist = distributions.Normal(mean_dist, torch.exp(self.logstd))
 
         return dist
 
@@ -99,7 +99,7 @@ class MLPPolicyPG(MLPPolicy):
         self,
         obs: np.ndarray,
         actions: np.ndarray,
-        advantages: np.ndarray,
+        advantages: np.ndarray
     ) -> dict:
         """Implements the policy gradient actor update."""
         obs = ptu.from_numpy(obs)
@@ -113,7 +113,16 @@ class MLPPolicyPG(MLPPolicy):
             probs = probs.max(1).values
         else:
             dist = self.forward(obs)
-            probs = dist.rsample()  # If action space is continuous, sample action from probs
+            log_probs = dist.prob(actions)
+            #probs = dist.rsample()  # If action space is continuous, sample action from probs
+
+            print(log_probs.shape)
+            print(log_probs)
+            raise ValueError("Test")
+
+
+        print(advantages.shape)
+        print(probs.shape)
 
         # Get loss
         loss = -torch.sum(torch.log(probs)*advantages)
